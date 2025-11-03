@@ -1,5 +1,7 @@
 #include<iostream>
 using namespace std;
+using namespace std;
+using namespace std;
 
 #define tab "\t"
 #define delimiter "\n--------------------------------\n"
@@ -59,11 +61,14 @@ public:
 	}
 
 	//       Operators:
-	void operator=(const Point& other)
+    Point& operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
+		cout << "Left:\t" << this << endl;
+		cout << "Left:\t" << &other << endl;
 		cout << "CopyAssignment:\t\t" << this << endl;
+		return *this;
 	}
 
     //        Methods:
@@ -92,11 +97,21 @@ double distance(const Point A,const Point B)
 	return distance;
 }
 
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	return result;
+}
+
 //#define STRUCT_POINT
 //#define DISTANCE_CHECK
 //#define FOR_COUNTER_LIFETIME
 //#define CONSTRUCTORS_CHECK
 //#define ASSIGNMENT_CHECK
+//#define OPERATORS_CHECK
+//#define Fraction
 
 void main()
 {
@@ -165,17 +180,137 @@ void main()
 #endif // CONSTRUCTORS_CHECK
 
 #ifdef ASSIGNMENT_CHECK
-int a, b, c;
+    int a, b, c;
+
 	a = b = c = 0;
+
 	cout << a << tab << b << tab << c << endl;
-	
+
 	Point A, B, C;
+	cout << delimiter << endl;
 	A = B = C = Point(2, 3);
+	Point(2, 3).print();
+	cout << delimiter << endl;
 	A.print();
 	B.print();
 	C.print();
-
+	cout << sizeof(Point) << endl;
 #endif // ASSIGNMENT_CHECK
 
-	
+#ifdef OPERATORS_CHECK
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+
+	Point A(2, 3);
+	Point B(7, 8);
+	Point C = A + B;
+	C.print();
+#endif // OPERATORS_CHECK
+
+#ifdef Fraction
+     class Fraction
+	{
+		public int numerator; // числитель
+		public int denominator; // знаменатель
+
+		public Fraction(int num, int den)
+		{
+			numerator = num;
+			denominator = den;
+		} // конструктор
+
+		public void reWrite() // вывод в консоль рационального числа.
+		{
+			Console.WriteLine("numerator: " + numerator);
+			Console.WriteLine("denominator: " + denominator);
+		}
+
+		public void Sum(int a, int b, int c, int d) // —умма двух дробей (a/b) + (c/d) 
+		{
+			int denom = 0;
+			int num = 0;
+			int amult = 0;
+			int cmult = 0;
+
+			if (b == d) // одинаковый знаменатель
+			{
+				num = a + c;
+				denom = b;
+			}
+
+			else // разные знаменатели
+			{
+				amult = a * d;
+				cmult = c * b;
+				num = amult + cmult;
+				denom = b * d;
+
+			}
+
+			Console.WriteLine("(a/b - c/d) = " + num + " / " + denom);
+
+		}
+
+		public void Substraction(int a, int b, int c, int d) // –азн двух дробей (a/b) - (c/d) 
+		{
+			int denom = 0;
+			int num = 0;
+			int amult = 0;
+			int cmult = 0;
+
+			if (b == d) // одинаковый знаменатель
+			{
+				num = a - c;
+				denom = b;
+			}
+
+			else // разные знаменатели
+			{
+				amult = a * d;
+				cmult = c * b;
+				num = amult - cmult;
+				denom = b * d;
+
+			}
+
+			Console.WriteLine("(a/b - c/d) = " + num + " / " + denom);
+
+		}
+
+		public void Multiply(int a, int b, int c, int d) // ”множение двух дробей (a/b) * (c/d) 
+		{
+			int num = a * c;
+			int denom = b * d;
+			Console.WriteLine("(a/b * c/d) = " + num + " / " + denom);
+
+		}
+
+		public void Division(int a, int b, int c, int d) // ƒеление двух дробей (a/b) / (c/d) 
+		{
+			int num = a * d;
+			int denom = b * c;
+			Console.WriteLine("(a/b * c/d) = " + num + " / " + denom);
+
+		}
+
+		public void Transformation(int a, int b) // ѕреобразовани€ дроби в смешанный вид (правильной)
+		{
+			int whole = a / b;
+			int num = a % b;
+			int denom = b;
+			Console.WriteLine("Whole = " + whole + ", num = " + num + ", denom = " + denom);
+
+		}
+
+		public void Integer_Part(int a, int b) // ¬ыделение целой части из дроби
+		{
+			int whole = a / b;
+			Console.WriteLine("Whole = " + whole);
+		}
+
+
+	}
+#endif // Fraction
+
 }
