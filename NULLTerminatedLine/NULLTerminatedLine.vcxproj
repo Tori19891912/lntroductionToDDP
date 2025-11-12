@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{5ddc64b8-c272-4270-87fd-7f0a2f7b0277}</ProjectGuid>
-    <RootNamespace>ClassSting</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>Sting</ProjectName>
+    <ProjectGuid>{70cfa925-7ddb-4a6c-a9d0-27103d6171b1}</ProjectGuid>
+    <RootNamespace>NULLTerminatedLine</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
