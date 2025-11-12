@@ -22,6 +22,8 @@ bool is_hex_number(const char str[]);
 int hex_to_dec(const char str[]);
 
 bool isMACaddress(const char str[]);
+bool isIPaddress(const char str[]);
+
 
 //NULL Terminated Lines
 //#define LINES_BASICS_1
@@ -82,6 +84,8 @@ void main()
 #endif // NUMERICS
 
 	cout << isMACaddress("F0-57-A6-06-CC-91") << endl;
+	cout << isIPaddress("193.-16.100.1") << endl;
+	cout << isIPaddress("8.8.8.8") << endl;
 }
 
 int StringLength(const char str[])
@@ -159,6 +163,25 @@ bool isPalindrome(const char str[])
 	delete[] buffer;
 	return true;
 }
+bool is_int_number(const char str[])
+{
+	for (int i = 0; str[i]; i++)
+	{
+		if (str[i] < '0' || str[i] > '9')return false;
+	}
+	return true;
+}
+int to_int_number(const char str[])
+{
+	if (!is_int_number(str))return INT_MIN;
+	int integer = 0;
+	for (int i = 0; str[i]; i++)
+	{
+		integer *= 10;
+		integer += str[i] - '0';
+	}
+	return integer;
+}
 bool is_bin_number(const char str[])
 {
 	for (int i = 0; str[i]; i++)
@@ -220,11 +243,40 @@ bool isMACaddress(const char str[])
 	{
 		if ((i + 1) % 3 == 0 && (str[i] == '-' || str[i] == ':')) continue;
 		else if ((i + 1) % 3 == 0) return false;
-		if(
+		if (!isxdigit(str[i]))return false;
+		/*if (
 		  !(str[i] >= '0' && str[i] <= '9') &&
 		  !(str[i] >= 'A' && str[i] <= 'F') &&
 		  !(str[i] >= 'a' && str[i] <= 'f')
-		  )return false;
+		  )return false;*/
 	}
 	return true;
+}
+bool isIPaddress(const char str[])
+{
+	// 8.8.8.8
+	//192.168.100.200
+	if (strlen(str) < 7 || strlen(str) > 15)return false;
+	int start = 0;
+	//int stop = 0;
+	int points_count = 0;
+	for (int i = 0; str[i]; i++)
+	{
+		if (str[i] == '.')
+		{
+			if (i - start > 3) return false;
+			char sz_byte[4] = {};
+			unsigned int i_byte = 0;
+			int k = 0;
+			for (int j = start; j < i; j++)
+			{
+				sz_byte[k++] = str[j];
+			}
+			i_byte = to_int_number(sz_byte);
+			if (i_byte > 255)return false;
+            start = i+1;
+			points_count++;
+		}
+	}
+	return points_count == 3 ? true : false;
 }
