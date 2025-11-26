@@ -1,59 +1,52 @@
-#include <iostream>  
-#include <cstring> 
-class String {
-private:
-	char* data;
-	size_t length;
+#define _CRT_SECURE_NO_WARNINGS
+#include <iostream>
+#include <cstring>
+
+class MyString {
+    char* data;
 
 public:
-	// Конструктор  
-	String(const char* str = "")
-	{
-		if (str == nullptr)
-		{
-			data = new char; [1] ;
-			data = '\0';
-			length = 0;
-		}
-		else
-		{
-			length = std::strlen(str);
-			data = new char[length + 1];
-			std::strcpy(data, str);
-		}
-	}
+    // Constructor
+    MyString(const char* str = "") {
+        data = new char[strlen(str) + 1];
+        strcpy(data, str);
+    }
 
-	// Деструктор  
-	~String()
-	{
-		delete data;
-	}
+    // User-defined move assignment operator
+    MyString& operator=(MyString&& other) {
+        std::cout << "Move assignment called\n";
 
-	// Оператор присваивания  
-	String& operator=(const String& other)
-	{
-		// Проверка на самоприсваивание  
-		if (this == &other)
-		{
-			return *this;
-		}
+        if (this != &other) {
+            // Free old memory
+            delete[] data;
+            // Steal the pointer
+            data = other.data;
+            // Set source to null
+            other.data = nullptr;
+        }
 
-		// Освобождаем старую память  
-		delete data;
+        return *this;
+    }
 
-		// Копируем новую строку  
-		length = other.length;
-		data = new char[length + 1];
-		std::strcpy(data, other.data);
+    // Destructor
+    ~MyString() {
+        delete[] data;
+    }
 
-		return *this;
-	}
-
-	// Метод для вывода строки  
-	void print() const {
-		std::cout << data << std::endl;
-	}
+    void print() const {
+        if (data)
+            std::cout << data << "\n";
+        else
+            std::cout << "[empty]\n";
+    }
 };
+int main() {
+    MyString a("Hello");
+    MyString b("World");
 
-// Тестирование  
+    b = std::move(a);
+
+    b.print();
+    a.print();
+}
 

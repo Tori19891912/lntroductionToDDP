@@ -44,6 +44,15 @@ public:
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:\t" << this << endl;
 	}
+	String(String&& other)
+	{
+		this->size = other.size;
+		this->str = other.str;
+
+		this->size = 0;
+		this->str = nullptr;
+		cout << "MoveConstructor:" << this << endl;
+	}
 	~String()
 	{
 		delete[] str;
@@ -62,6 +71,21 @@ public:
 		cout << "CopyAssignment:\t" << this << endl;
 		return *this;
 	}
+	String& operator=(String&& other)
+	{
+		if (this == &other)return *this;
+		delete[] this->str;
+
+		this->size = other.size;
+		this->str = other.str;
+
+		other.size = 0;
+		other.str = nullptr;
+
+		cout << "MoveAssignment:\t" << this << endl;
+		return *this;
+	}
+
 	char operator[](int i)const
 	{
 		return str[i];
@@ -91,6 +115,8 @@ String operator+(const String& left, const String& right)
 		result[i +  left.get_size() - 1] = right[i];
 		//result.get_str()[left.get_size() - 1 + i] = right.get_str()[i];
 	return result;
+	//0x00e12640
+	//r-value reference
 }
 
 std::ostream& operator<<(std::ostream& os, const String& obj)
@@ -99,8 +125,8 @@ std::ostream& operator<<(std::ostream& os, const String& obj)
 }
 
 //#define BASE_CHECK
-#define OPERATORS_CHECK
-#define CopyAssignment
+//#define OPERATORS_CHECK
+#define CALLING_CONSTRUCTORS
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -124,20 +150,65 @@ void main()
 #endif // BASE_CHECK
 
 #ifdef OPERATORS_CHECK
-
-	String str1 = "Hello";
+	int a = 2;
+	int b = 3;
+	a + b;
+    String str1 = "Hello";
 	String str2 = "World";
-	String str3 = str1 + str2;
+
+	cout << delimiter << endl;
+	//String str3 = str1 + str2;
+	String str3;
+	str3 = str1 + str2;
+	cout << delimiter << endl;
+
 	cout << str3 << endl;
 #endif // OPERATORS_CHECK
 
-#ifndef CopyAssignment
+#ifdef   CALLING_CONSTRUCTORS
+	String str1;
+	str1.print();
 
-#endif // CopyAssignment
+	String str2(5);
+	str2.print();
 
+	String str3 = "Hello";
+	str3.print();
+
+	String str4();
+	//str4().print();
+
+	String str5{};
+	str5.print();
+
+	String str6{ 7 };
+	str6.print();
+
+	String str7(" World ");
+	String str8{ " World " };
+
+	String str9 = str3;
+	String str10(str9);
+	String str11{ str9 };
+
+	String str12 = str3 + str7;
+	str12.print();
+
+	String str13(str3 + str7);
+	str13.print();
+
+	String str14(str3 + str7);
+	str14.print();
+#endif //  CALLING_CONSTRUCTORS
+
+	
 }
 
 //Deep copy
 //Shallow copy
 //Debug Assertion Failed
 //Memory Leak
+
+//Move semantic
+//Move Constructor
+//Move Assignment
